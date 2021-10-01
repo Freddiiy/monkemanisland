@@ -11,5 +11,7 @@ Avoid the bananas for as long as possible and shoot as many as you can before yo
 <a href="https://github.com/Snoopsie1">Snoopsie1<a/><br>
 <a href="https://github.com/reflele">reflele<a/><br>
 <a href="https://github.com/Freddiiy">and I, Freddiiy<a/><br>
+  
+Migrated from <a href="https://github.com/cphbusiness-croup-c/monkemanisland">here<a/>
 
 You can build upon or edit this code however you want :)
