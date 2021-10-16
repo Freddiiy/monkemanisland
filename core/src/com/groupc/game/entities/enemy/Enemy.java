@@ -12,24 +12,20 @@ import com.groupc.game.utils.CollisionRect;
 import static com.groupc.game.utils.Constants.*;
 
 public class Enemy {
-    final boolean bodyNullChecker = this.body != null;
+    final boolean bodyNullChecker = false;
 
-    private Vector2 position;
     private TextureAtlas atlas;
-    private Texture texture;
-    private Sprite sprite;
-    private SpriteBatch batch;
+    private final Texture texture;
     private TextureRegion walk1, walk2, walk3, walk4;
     private boolean flipped;
     private boolean shotFinished;
     private boolean isDead = false;
-    private EnemyProjectiles projectiles;
 
-    private Sound deadSound;
-    private Sound hitSound;
+    private final Sound deadSound;
+    private final Sound hitSound;
 
-    private boolean hasFlippedL = false;
-    private boolean hasFLippedR = false;
+    private final boolean hasFlippedL = false;
+    private final boolean hasFLippedR = false;
 
     float counter = 1;
     float behaviorCounter = 1;
@@ -38,27 +34,25 @@ public class Enemy {
 
     private Body body;
 
-    private final float SPEED = 200;
-
-    private CollisionRect collisionRect;
+    private final CollisionRect collisionRect;
 
     //animation
     private Texture current;
     private boolean flipX;
     private float animationState;
-    private Texture frame1, frame2, frame3, frame4, frame5, frame6;
-    private Animation walk, idle, hit, shoot;
+    private Animation<Texture> walk;
+    private Animation<Texture> idle;
 
     public Enemy(World world, float x, float y) {
         this.body = createBox(world, x, y, (int)PPM, (int)PPM, false);
         this.texture = new Texture("enemy/16b_Banana.png");
-        this.sprite = new Sprite(texture);
-        this.batch = new SpriteBatch();
+        Sprite sprite = new Sprite(texture);
+        SpriteBatch batch = new SpriteBatch();
 
         this.deadSound = Gdx.audio.newSound(Gdx.files.internal("sounds/enemyDead.wav"));
         this.hitSound = Gdx.audio.newSound(Gdx.files.internal("sounds/enemyHit.wav"));
 
-        this.projectiles = new EnemyProjectiles();
+        EnemyProjectiles projectiles = new EnemyProjectiles();
         this.hp = 9;
 
         this.collisionRect = new CollisionRect((this.body.getPosition().x)*PPM, (this.body.getPosition().y)*PPM, 10, 10);
@@ -94,29 +88,30 @@ public class Enemy {
 
     public void behavior(World world, Vector2 target, float delta) {
         if (behaviorCounter * delta > 2) {
-            rnd = (int)((Math.random() * (4-0)) + 0);
+            rnd = (int)((Math.random() * (4)) + 0);
             behaviorCounter =1;
         } else {
             behaviorCounter++;
         }
+        float SPEED = 200;
         if (rnd == 0 || rnd == 1) {
             Vector2 direction = new Vector2(target.x - (body.getPosition().x * PPM), target.y - (body.getPosition().y) * PPM);
 
             body.setLinearVelocity(direction.nor().x * (SPEED * delta), body.getLinearVelocity().y);
             body.setLinearVelocity(body.getLinearVelocity().x, direction.nor().y * (SPEED * delta));
 
-            current = (Texture) walk.getKeyFrame(animationState, true);
+            current = walk.getKeyFrame(animationState, true);
         } else if (rnd == 2) {
             body.setLinearVelocity(0, 0);
 
-            current = (Texture) idle.getKeyFrame(animationState, false);
+            current = idle.getKeyFrame(animationState, false);
         }else if (rnd == 3) {
             Vector2 direction = new Vector2(target.x - (body.getPosition().x * PPM), target.y - (body.getPosition().y) * PPM);
 
             body.setLinearVelocity(-direction.nor().x * (SPEED * delta), body.getLinearVelocity().y);
             body.setLinearVelocity(body.getLinearVelocity().x, -direction.nor().y * (SPEED * delta));
 
-            current = (Texture) walk.getKeyFrame(animationState, true);
+            current = walk.getKeyFrame(animationState, true);
         }
 
         //flip the banana
@@ -129,7 +124,7 @@ public class Enemy {
 
     public void shoot(World world, Vector2 target, float delta) {
         if (counter * delta > (float)((Math.random() * (6.0f-1.0f)) + 1.0f)) {
-            projectiles.projectilesList.add(new EnemyProjectile(world, body.getPosition().scl(PPM), target));
+            EnemyProjectiles.projectilesList.add(new EnemyProjectile(world, body.getPosition().scl(PPM), target));
             counter = 1;
         } else {
             counter++;
@@ -141,7 +136,6 @@ public class Enemy {
     }
 
     public void setPosition(Vector2 position) {
-        this.position = position;
     }
 
     public Body createBox(World world, float x, float y, int width, int height, boolean isStatic) {
@@ -174,7 +168,6 @@ public class Enemy {
 
     public void updateCollisionRect () {
         this.collisionRect.updatePosition((this.body.getPosition().x)*PPM, (this.body.getPosition().y)*PPM);
-        //System.out.println("ENEMY " + currentNum +  ": " + collisionRect.getX() + ", " + collisionRect.getY() + ", " + collisionRect.getX() + collisionRect.getWidth() + ", " + collisionRect.getY() + collisionRect.getHeight());
     }
 
     public void collisionWith (CollisionRect contact) {
@@ -223,25 +216,25 @@ public class Enemy {
     private void initAnimations() {
         animationState = 0;
 
-        frame1 = new Texture("enemy/enemy1.png");
-        frame2 = new Texture("enemy/enemy2.png");
-        frame3 = new Texture("enemy/enemy3.png");
-        frame4 = new Texture("enemy/enemy4.png");
-        frame5 = new Texture("enemy/enemy5.png");
-        frame6 = new Texture("enemy/enemy6.png");
+        Texture frame1 = new Texture("enemy/enemy1.png");
+        Texture frame2 = new Texture("enemy/enemy2.png");
+        Texture frame3 = new Texture("enemy/enemy3.png");
+        Texture frame4 = new Texture("enemy/enemy4.png");
+        Texture frame5 = new Texture("enemy/enemy5.png");
+        Texture frame6 = new Texture("enemy/enemy6.png");
 
-        walk = new Animation(.170f, frame5, frame6);
+        walk = new Animation<>(.170f, frame5, frame6);
         walk.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-        idle = new Animation(0, frame1);
+        idle = new Animation<>(0, frame1);
         idle.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-        shoot = new Animation(.170f, frame3, frame4);
+        Animation<Texture> shoot = new Animation<>(.170f, frame3, frame4);
         shoot.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-        hit = new Animation(.170f, frame2, frame2, frame2);
+        Animation<Texture> hit = new Animation<>(.170f, frame2, frame2, frame2);
         hit.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-        current = (Texture)idle.getKeyFrame(animationState);
+        current = idle.getKeyFrame(animationState);
     }
 }

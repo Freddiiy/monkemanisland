@@ -21,11 +21,11 @@ public class EnemyHandler {
         this.numberOfEnemyMax = numberOfEnemyMax;
     }
 
-    public static ArrayList<Enemy> enemyHandler = new ArrayList<Enemy>();
+    public static ArrayList<Enemy> enemyHandler = new ArrayList<>();
 
     public void render(Batch batch) {
-        for (int i = 0; i < enemyHandler.size(); i++) {
-            enemyHandler.get(i).render(batch);
+        for (Enemy enemy : enemyHandler) {
+            enemy.render(batch);
         }
     }
 
@@ -43,8 +43,8 @@ public class EnemyHandler {
     }
 
     public void updatePosition(World world, Vector2 target, float delta) {
-        for (int i = 0; i < enemyHandler.size(); i++) {
-            enemyHandler.get(i).update(world, target, delta);
+        for (Enemy enemy : enemyHandler) {
+            enemy.update(world, target, delta);
         }
     }
 
@@ -88,9 +88,9 @@ public class EnemyHandler {
     }
 
     public boolean collisionWith(CollisionRect contact, World world) {
-        for (int i = 0; i < enemyHandler.size(); i++) {
-            if (enemyHandler.get(i).getCollisionRect().collisionWith(contact)) {
-                enemyHandler.get(i).collisionWith(contact);
+        for (Enemy enemy : enemyHandler) {
+            if (enemy.getCollisionRect().collisionWith(contact)) {
+                enemy.collisionWith(contact);
                 return true;
             }
         }
@@ -99,15 +99,14 @@ public class EnemyHandler {
 
     public CollisionRect getCollisionRect() {
         CollisionRect collisionRect = new CollisionRect(1, 1, 1, 1);
-        for (int i = 0; i < enemyHandler.size(); i++) {
-            return enemyHandler.get(i).getCollisionRect();
+        for (Enemy enemy : enemyHandler) {
+            return enemy.getCollisionRect();
         }
         return collisionRect;
     }
 
     public float getRandomNumber(int x, int y) {
-        float rnd = (float)(Math.random() * (x-y) + y);
-        return rnd;
+        return (float)(Math.random() * (x-y) + y);
     }
 
     public float getNumberOfEnemy() {

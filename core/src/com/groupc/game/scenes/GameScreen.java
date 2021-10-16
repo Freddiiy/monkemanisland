@@ -148,15 +148,15 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 		//Collision dumb way dont do
 
 		enemyHandler.collisionWith(projectiles.getCollisionRect(), world);
-		for (int i = 0; i < enemyProjectiles.projectilesList.size(); i++) {
-			player.collisionWith(enemyProjectiles.projectilesList.get(i).getCollisionRect());
+		for (int i = 0; i < EnemyProjectiles.projectilesList.size(); i++) {
+			player.collisionWith(EnemyProjectiles.projectilesList.get(i).getCollisionRect());
 		}
 		enemyProjectiles.collisionWith(player.getCollisionRect(), world);
-		for (int i = 0; i < projectiles.projectilesList.size(); i++) {
+		for (int i = 0; i < Projectiles.projectilesList.size(); i++) {
 			enemyHandler.collisionWith(Projectiles.projectilesList.get(i).getCollisionRect(), world);
 		}
 
-		for (int i = 0; i < enemyHandler.enemyHandler.size(); i++) {
+		for (int i = 0; i < EnemyHandler.enemyHandler.size(); i++) {
 			projectiles.collisionWith(EnemyHandler.enemyHandler.get(i).getCollisionRect(), world);
 		}
 		//Collision end+
@@ -165,9 +165,9 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 			enemyHandler.setNumberOfEnemy(0);
 			enemyHandler.setNumberOfEnemyMax(1);
 			enemyHandler.setDeadEnemies(0);
-			enemyProjectiles.projectilesList.clear();
-			projectiles.projectilesList.clear();
-			enemyHandler.enemyHandler.clear();
+			EnemyProjectiles.projectilesList.clear();
+			Projectiles.projectilesList.clear();
+			EnemyHandler.enemyHandler.clear();
 			Score.updateHighScore();
 			try {
 				music.dispose();
@@ -203,15 +203,6 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 
 	public void appWindow() {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
-		boolean isFullscreen = false;
-		if(Gdx.input.isKeyJustPressed(Input.Keys.O) && !isFullscreen) {
-			//isFullscreen = true;
-			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		}
-//		if (Gdx.input.isKeyJustPressed(Input.Keys.O) && isFullscreen) {
-//			Gdx.graphics.setWindowedMode(1280, 720);
-//			isFullscreen = false;
-//		}
 	}
 
 	@Override
