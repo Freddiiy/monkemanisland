@@ -9,27 +9,16 @@ import com.monkeman.game.utils.CollisionRect;
 import com.monkeman.game.utils.Constants;
 
 public class Projectile {
-    final boolean DEBUG = false;
-    final boolean bodyNullChecker = this.body != null;
-
-    private final float SPEED = 1000;
-    private float spread = 1000;
     private Body body;
-    private Vector2 spawn;
-    private Vector2 target;
-    private Vector2 velocity;
+    private final Vector2 velocity;
 
-    private Texture texture;
-    private Sprite sprite;
+    private final Texture texture;
 
-    private CollisionRect collisionRect;
+    private final CollisionRect collisionRect;
 
     public Projectile(World world, Vector2 spawn, Vector2 target) {
         this.body = createBox(world, spawn.x, spawn.y, 4, 4, false);
-        this.spawn = new Vector2(spawn);
-        this.target = new Vector2(target);
         this.texture = new Texture("projectiles/projectile.png");
-        this.sprite = new Sprite(texture);
         this.velocity = new Vector2((target.x - spawn.x),(target.y - spawn.y));
 
         this.collisionRect = new CollisionRect(spawn.x, spawn.y, 8, 8);
@@ -55,6 +44,7 @@ public class Projectile {
 
     public void update(float delta) {
         if (this.body != null) {
+            float SPEED = 1000;
             body.setLinearVelocity(velocity.nor().x * (SPEED * delta), body.getLinearVelocity().y);
             body.setLinearVelocity(body.getLinearVelocity().x, velocity.nor().y * (SPEED * delta));
 

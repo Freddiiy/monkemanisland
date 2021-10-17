@@ -129,7 +129,6 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 
 		cameraUpdate(delta);
 		tileMap.setView(camera);
-		//tileMap.setView(camera.combined, -300, -300, 2000, 2000);
 		batch.setProjectionMatrix(camera.combined);
 
 		//placeholder position maybe possibly until I get smarter

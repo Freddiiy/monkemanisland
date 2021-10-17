@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Projectiles {
     private CollisionRect collisionRect;
-    private int limit = 20;
+    private final int limit = 20;
     public static ArrayList<Projectile> projectilesList = new ArrayList<Projectile>();
 
     public void render(Batch batch) {
@@ -42,13 +42,6 @@ public class Projectiles {
     }
 
     public void despawnFirst(World world) {
-        if (projectilesList.size() > limit) {
-            projectilesList.remove(0);
-            projectilesList.get(0).despawn(world);
-        }
-    }
-
-    public void despawn(World world) {
         if (projectilesList.size() > limit) {
             projectilesList.remove(0);
             projectilesList.get(0).despawn(world);

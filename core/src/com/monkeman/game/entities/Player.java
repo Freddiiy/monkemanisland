@@ -14,9 +14,6 @@ import com.monkeman.game.utils.CollisionRect;
 import com.monkeman.game.utils.Constants;
 
 public class Player {
-    private Vector2 position;
-
-    private TextureAtlas atlas;
     private final Sprite sprite;
 
     private boolean hasFlippedL = false;
@@ -43,8 +40,6 @@ public class Player {
         this.body = createBox(world, x, y, (int) Constants.PPM, (int) Constants.PPM, false);
         Texture texture = new Texture("player/monkey16p.png");
         this.sprite = new Sprite(texture);
-        SpriteBatch batch = new SpriteBatch();
-        Projectiles projectiles = new Projectiles();
         hp = 9;
 
         shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shootsound.wav"));
@@ -180,10 +175,8 @@ public class Player {
         }
     }
 
-    //Collision rect
     public void updateCollisionRect () {
         this.collisionRect.updatePosition(body.getPosition().x * Constants.PPM, body.getPosition().y * Constants.PPM);
-        //System.out.println("PLAYER:" + collisionRect.getX() + ", " + collisionRect.getY() + ", " + collisionRect.getX() + collisionRect.getWidth() + ", " + collisionRect.getX() + collisionRect.getHeight());
     }
 
     public void collisionWith (CollisionRect contact) {
